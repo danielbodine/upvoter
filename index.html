@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script><!--Register Jquery--><script src="http://code.jquery.com/jquery-1.9.1.js"></script><script src="http://code.jquery.com/jquery-migrate-1.1.0.js"></script><!--Register Google Api--><script src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>  
+<script src= "app.js"></script><script src= "auth.js"></script>
+</head>
+
+<body>
+<h1>Upvoter</h1><button type="button" id="googlelogin">Click to sign-in with Google</button><p id="user_name"></p><div data-ng-app="myApp" data-ng-controller="choicesCtrl">
+  <ul>
+    <li data-ng-repeat="x in choices">
+	  <button ng-disabled="notAuth" ng-click="up(x);">Up</button>
+	  <button ng-disabled="notAuth" ng-click="down(x);">Down</button>
+	  {{ x.choice + ': ' + x.upvotes }}
+    </li>
+  </ul>
+  New: <input type="text" id= "newPost"> 
+  <button ng-disabled="notAuth" ng-click="create();">Submit</button>
+</div>
+
+</body>
+</html>
