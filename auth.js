@@ -21,9 +21,19 @@ function handleAuthResult(authResult) {
 }
   
 //Make api call on button click to authorize client
-function handleAuthClick(event) { gapi.auth.authorize({ client_id: clientId, 
+function handleAuthClick(event) { 
+		if(!logged_in){
+			gapi.auth.authorize({ client_id: clientId, 
             scope: scopes, immediate: false }, handleAuthResult);
- 
+		}
+		else {
+			console.log('logged out');
+			logged_in = false;
+			angular.element(document.getElementById('test')).scope().user_logged_in();
+			angular.element(document.getElementById('test')).scope().$apply();
+			$('#googlelogin').html("Click to sign-in with Google");
+			$('#user_name').text('You have been successfully logged-out!');
+		}
     return false;
 }
  
@@ -37,17 +47,21 @@ function makeApiCall() {
         request.execute(function (resp) {
 			console.log(resp);
 			$('#user_name').text('Welcome ' + resp.displayName);
+			$('#googlelogin').html("Log-out");
 			//$('#user_name').text(resp.emails[0].value); <-- email
 			logged_in = true;
-			//angular.element(document.getElementById('choicesCtrl')).scope().user_logged_in();
-			angular.element('#choicesCtrl').scope().user_logged_in();
+			angular.element(document.getElementById('test')).scope().user_logged_in();
+			angular.element(document.getElementById('test')).scope().$apply();
+			
         });
     });
 }
  
 $(function () {
     var authorizeButton = document.getElementById('googlelogin');
-    authorizeButton.onclick = handleAuthClick;
+		authorizeButton.onclick = handleAuthClick;
+
+	
 })
 
 function isLogged() {

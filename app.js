@@ -7,10 +7,12 @@ angular.module('myApp', [])
 		
 	responsePromise.success(function(data,status,headers,config) {
 		$scope.choices = data;
+
 	});
 	
 	responsePromise.error(function(data,status,headers,config) {
 		alert("AJAX failed!");
+
 	});
 	
 	if(isLogged()){
@@ -19,13 +21,16 @@ angular.module('myApp', [])
 	else {
 		$scope.notAuth = true;
 	}
+	
 	$scope.up = function (choice) {
         var myparams = {function:"up", choice: choice.choice};
 		var config = {params: myparams};
 		var responsePromise = $http.get("api.php",config);
 		responsePromise.success(function(data,status,headers,config) {
-			$scope.choices = data;
+			return $scope.choices = data;
+
 		});
+
     }
 	
 	$scope.down = function (choice) {
@@ -34,7 +39,9 @@ angular.module('myApp', [])
 		var responsePromise = $http.get("api.php",config);
 		responsePromise.success(function(data,status,headers,config) {
 			$scope.choices = data;
+
 		});
+	
     }
 	$scope.create = function(){
 		
@@ -45,15 +52,23 @@ angular.module('myApp', [])
 			var responsePromise = $http.get("api.php",config);
 			responsePromise.success(function(data,status,headers,config) {
 				$scope.choices = data;
+		
 			});
 		
 		}
 	
 	}
 	$scope.user_logged_in = function() {
-		console.log('Stuff ');
-		
+		//$scope.notAuth = false;
+		console.log($scope.notAuth.toString());
+		if(isLogged()){
+			$scope.notAuth = false;
+		}
+		else {
+			$scope.notAuth = true;
+		}
 	}
+	return;
 });
 
 
